@@ -5,11 +5,13 @@ import React from "react";
 import { useConnect, useDisconnect, useSignMessage } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import useDiscordTag from "../hooks/useDiscordTag";
 import useSushismiCount from "../hooks/useSushimiCount";
 
 import Metamask from "../public/icons/Metamask";
 import WalletConnect from "../public/icons/WalletConnect";
+import Image from "next/image";
 
 const injectedConnector = new InjectedConnector({
   options: { shimDisconnect: true },
@@ -18,12 +20,31 @@ const walletConnectConnector = new WalletConnectConnector({
   options: { qrcode: true },
 });
 
+const coinbaseConnector = new CoinbaseWalletConnector({
+  options: {
+    appName: "sushimi-verify",
+  },
+});
+
 const connectors = [
   { icon: <Metamask />, text: "Metamask", connector: injectedConnector },
   {
     icon: <WalletConnect />,
     text: "WalletConnect",
     connector: walletConnectConnector,
+  },
+  {
+    icon: (
+      <Image
+        src="/icons/coinbase.png"
+        alt="coinbase"
+        objectFit="cover"
+        height={32}
+        width={32}
+      />
+    ),
+    text: "Coinbase",
+    connector: coinbaseConnector,
   },
 ];
 
